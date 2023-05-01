@@ -6,11 +6,12 @@ import com.nauktis.solarflux.init.recipes.AbstractRecipeRegistrar;
 import com.nauktis.solarflux.init.recipes.ThermalExpansionRecipeRegistrar;
 import com.nauktis.solarflux.init.recipes.VanillaRecipeRegistrar;
 import com.nauktis.solarflux.reference.Reference;
+
 import cpw.mods.fml.common.Loader;
 
 public class ModRecipes {
-    private ModRecipes() {
-    }
+
+    private ModRecipes() {}
 
     public static void initialize() {
         SolarFluxMod.log.info("Registering recipes");

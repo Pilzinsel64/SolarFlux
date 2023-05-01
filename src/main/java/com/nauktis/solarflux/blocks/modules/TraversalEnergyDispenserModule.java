@@ -1,17 +1,19 @@
 package com.nauktis.solarflux.blocks.modules;
 
+import java.util.LinkedList;
+import java.util.Set;
+
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.nauktis.core.utility.BlockPosition;
 import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
 import com.nauktis.solarflux.config.ModConfiguration;
 import com.nauktis.solarflux.init.ModItems;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.LinkedList;
-import java.util.Set;
 
 public class TraversalEnergyDispenserModule extends SimpleEnergyDispenserModule {
+
     private final Set<BlockPosition> mVisitedBlocks = Sets.newHashSet();
     private final LinkedList<BlockPosition> mBlocksToVisit = Lists.newLinkedList();
     private int mDirectNeighborDiscovered;
@@ -73,6 +75,7 @@ public class TraversalEnergyDispenserModule extends SimpleEnergyDispenserModule 
      * Returns the maximum amount of target that can be found in addition to the 4 neighbors of the block.
      */
     public int getMaximumExtraTargets() {
-        return getTileEntity().getUpgradeCount(ModItems.mUpgradeTraversal) * ModConfiguration.getTraversalUpgradeIncrease();
+        return getTileEntity().getUpgradeCount(ModItems.mUpgradeTraversal)
+            * ModConfiguration.getTraversalUpgradeIncrease();
     }
 }

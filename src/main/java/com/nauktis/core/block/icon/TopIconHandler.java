@@ -1,16 +1,17 @@
 package com.nauktis.core.block.icon;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Implementation where the top of the block has a different texture than the rest.
  */
 public class TopIconHandler implements IBlockIconHandler {
+
     private final IBlockIconHandler mTop;
     private final IBlockIconHandler mSides;
 

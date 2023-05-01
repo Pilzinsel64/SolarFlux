@@ -1,5 +1,7 @@
 package com.nauktis.solarflux.init;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import com.nauktis.core.block.BaseModBlock;
 import com.nauktis.core.block.icon.ConnectedIconHandler;
@@ -11,20 +13,20 @@ import com.nauktis.solarflux.blocks.SolarPanelBlock;
 import com.nauktis.solarflux.config.ModConfiguration;
 import com.nauktis.solarflux.items.SolarPanelItemBlock;
 import com.nauktis.solarflux.reference.Reference;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
-import java.util.List;
-
 public class ModBlocks {
+
     private static final List<BaseModBlock> mSolarPanels = Lists.newArrayList();
 
-    private ModBlocks() {
-    }
+    private ModBlocks() {}
 
     public static void initialize() {
         SolarFluxMod.log.info("Registering blocks");
         mSolarPanels.clear();
-        for (int tierIndex = 0; tierIndex < ModConfiguration.getTierConfigurations().size(); tierIndex++) {
+        for (int tierIndex = 0; tierIndex < ModConfiguration.getTierConfigurations()
+            .size(); tierIndex++) {
             int registeredTierName = tierIndex + 1;
 
             // Texture
@@ -36,7 +38,9 @@ public class ModBlocks {
                 topHandler = new ConnectedIconHandler(Reference.MOD_ID, "solar" + textureTierIndex + "_");
             }
 
-            SingleIconHandler sideHandler = new SingleIconHandler(Reference.MOD_ID, "solar" + textureTierIndex + "_side");
+            SingleIconHandler sideHandler = new SingleIconHandler(
+                Reference.MOD_ID,
+                "solar" + textureTierIndex + "_side");
             TopIconHandler iconHandler = new TopIconHandler(topHandler, sideHandler);
 
             SolarPanelBlock block = new SolarPanelBlock("solar" + tierIndex, iconHandler, tierIndex);

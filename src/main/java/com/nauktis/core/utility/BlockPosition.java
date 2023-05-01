@@ -1,7 +1,8 @@
 package com.nauktis.core.utility;
 
-import com.google.common.base.Objects;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.google.common.base.Objects;
 
 /**
  * A Block position together with an optional direction.
@@ -9,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * This object is immutable.
  */
 public final class BlockPosition {
+
     private final int mX;
     private final int mY;
     private final int mZ;
@@ -54,9 +56,7 @@ public final class BlockPosition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BlockPosition that = (BlockPosition) o;
-        return Objects.equal(mX, that.mX) &&
-                Objects.equal(mY, that.mY) &&
-                Objects.equal(mZ, that.mZ);
+        return Objects.equal(mX, that.mX) && Objects.equal(mY, that.mY) && Objects.equal(mZ, that.mZ);
     }
 
     @Override

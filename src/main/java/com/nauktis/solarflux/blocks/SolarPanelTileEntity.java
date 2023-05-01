@@ -1,6 +1,17 @@
 package com.nauktis.solarflux.blocks;
 
-import cofh.api.energy.IEnergyProvider;
+import static com.google.common.base.Preconditions.checkState;
+
+import java.util.Map;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
@@ -16,19 +27,11 @@ import com.nauktis.solarflux.config.TierConfiguration;
 import com.nauktis.solarflux.init.ModItems;
 import com.nauktis.solarflux.items.UpgradeItem;
 import com.nauktis.solarflux.reference.NBTConstants;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkState;
+import cofh.api.energy.IEnergyProvider;
 
 public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IInventory, IEnergyProvider {
+
     public static final int INVENTORY_SIZE = 5;
     public static final Range<Integer> UPGRADE_SLOTS = Range.closedOpen(0, INVENTORY_SIZE);
     /**
@@ -65,8 +68,10 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
         mTierIndex = pTierIndex;
         mTickShift = (short) Utils.RANDOM.nextInt(5 * 20);
         mEnergyStorage = new StatefulEnergyStorage(
-                ModConfiguration.getTierConfiguration(mTierIndex).getCapacity(),
-                ModConfiguration.getTierConfiguration(mTierIndex).getMaximumEnergyTransfer());
+            ModConfiguration.getTierConfiguration(mTierIndex)
+                .getCapacity(),
+            ModConfiguration.getTierConfiguration(mTierIndex)
+                .getMaximumEnergyTransfer());
 
         // Add an energy sharing module if the config says so.
         if (ModConfiguration.doesAutoBalanceEnergy()) {
@@ -75,7 +80,8 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
     }
 
     public TierConfiguration getTierConfiguration() {
-        return ModConfiguration.getTierConfigurations().get(mTierIndex);
+        return ModConfiguration.getTierConfigurations()
+            .get(mTierIndex);
     }
 
     @Override
@@ -127,9 +133,8 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
         computeSunIntensity();
 
         double energyGeneration = getMaximumEnergyGeneration() * mSunIntensity;
-        energyGeneration *= (1 + ModConfiguration.getEfficiencyUpgradeIncrease() * Math.pow(
-                getUpgradeCount(ModItems.mUpgradeEfficiency),
-                ModConfiguration.getEfficiencyUpgradeReturnsToScale()));
+        energyGeneration *= (1 + ModConfiguration.getEfficiencyUpgradeIncrease() * Math
+            .pow(getUpgradeCount(ModItems.mUpgradeEfficiency), ModConfiguration.getEfficiencyUpgradeReturnsToScale()));
 
         mCurrentEnergyGeneration = (int) Math.round(energyGeneration);
     }
@@ -191,7 +196,8 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
             ItemStack itemStack = getStackInSlot(i);
             if (itemStack != null && itemStack.getItem() instanceof UpgradeItem) {
                 if (mUpgradeCache.containsKey(itemStack.getItem())) {
-                    mUpgradeCache.put(itemStack.getItem(), itemStack.stackSize + mUpgradeCache.get(itemStack.getItem()));
+                    mUpgradeCache
+                        .put(itemStack.getItem(), itemStack.stackSize + mUpgradeCache.get(itemStack.getItem()));
                 } else {
                     mUpgradeCache.put(itemStack.getItem(), itemStack.stackSize);
                 }
@@ -199,25 +205,29 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
         }
 
         // Do we have any upgrade for traversal?
-        if (getUpgradeCount(ModItems.mUpgradeTraversal) > 0 && mEnergyDispenserModule instanceof SimpleEnergyDispenserModule) {
+        if (getUpgradeCount(ModItems.mUpgradeTraversal) > 0
+            && mEnergyDispenserModule instanceof SimpleEnergyDispenserModule) {
             mEnergyDispenserModule = new TraversalEnergyDispenserModule(this);
-        } else if (getUpgradeCount(ModItems.mUpgradeTraversal) == 0 && mEnergyDispenserModule instanceof TraversalEnergyDispenserModule) {
-            mEnergyDispenserModule = new SimpleEnergyDispenserModule(this);
-        }
+        } else if (getUpgradeCount(ModItems.mUpgradeTraversal) == 0
+            && mEnergyDispenserModule instanceof TraversalEnergyDispenserModule) {
+                mEnergyDispenserModule = new SimpleEnergyDispenserModule(this);
+            }
 
         // Apply effect of transfer rate upgrade.
         getEnergyStorage().setMaxTransfer(
-                (int) (ModConfiguration.getTierConfiguration(mTierIndex).getMaximumEnergyTransfer() *
-                        (1 + ModConfiguration.getTransferRateUpgradeIncrease() * Math.pow(
-                                getUpgradeCount(ModItems.mUpgradeTransferRate),
-                                ModConfiguration.getTransferRateUpgradeReturnsToScale()))));
+            (int) (ModConfiguration.getTierConfiguration(mTierIndex)
+                .getMaximumEnergyTransfer()
+                * (1 + ModConfiguration.getTransferRateUpgradeIncrease() * Math.pow(
+                    getUpgradeCount(ModItems.mUpgradeTransferRate),
+                    ModConfiguration.getTransferRateUpgradeReturnsToScale()))));
 
         // Apply effect of capacity upgrade
         getEnergyStorage().setMaxEnergyStored(
-                (int) (ModConfiguration.getTierConfiguration(mTierIndex).getCapacity() *
-                        (1 + ModConfiguration.getCapacityUpgradeIncrease() * Math.pow(
-                                getUpgradeCount(ModItems.mUpgradeCapacity),
-                                ModConfiguration.getCapacityUpgradeReturnsToScale()))));
+            (int) (ModConfiguration.getTierConfiguration(mTierIndex)
+                .getCapacity()
+                * (1 + ModConfiguration.getCapacityUpgradeIncrease() * Math.pow(
+                    getUpgradeCount(ModItems.mUpgradeCapacity),
+                    ModConfiguration.getCapacityUpgradeReturnsToScale()))));
     }
 
     public int getTotalUpgradeInstalled() {
@@ -257,8 +267,12 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
         mTierIndex = pNBT.getInteger(NBTConstants.TIER_INDEX);
 
         // Update Energy Storage with Tier Configuration
-        mEnergyStorage.setMaxEnergyStored(ModConfiguration.getTierConfiguration(mTierIndex).getCapacity());
-        mEnergyStorage.setMaxTransfer(ModConfiguration.getTierConfiguration(mTierIndex).getMaximumEnergyTransfer());
+        mEnergyStorage.setMaxEnergyStored(
+            ModConfiguration.getTierConfiguration(mTierIndex)
+                .getCapacity());
+        mEnergyStorage.setMaxTransfer(
+            ModConfiguration.getTierConfiguration(mTierIndex)
+                .getMaximumEnergyTransfer());
 
         // Restore inventory and force an update of the upgrade cache.
         mInventory.readFromNBT(pNBT);
@@ -330,10 +344,10 @@ public class SolarPanelTileEntity extends BaseModTileEntitySynced implements IIn
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("hash", hashCode())
-                .add("MaxProduction", getMaximumEnergyGeneration())
-                .add("energyStorage", getEnergyStorage())
-                .toString();
+            .add("hash", hashCode())
+            .add("MaxProduction", getMaximumEnergyGeneration())
+            .add("energyStorage", getEnergyStorage())
+            .toString();
     }
 
     public BaseInventory getInventory() {

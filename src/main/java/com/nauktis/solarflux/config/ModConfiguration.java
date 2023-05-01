@@ -1,27 +1,30 @@
 package com.nauktis.solarflux.config;
 
+import java.io.File;
+import java.util.List;
+
+import net.minecraftforge.common.config.Configuration;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.nauktis.core.utility.MetricUnits;
 import com.nauktis.solarflux.SolarFluxMod;
 import com.nauktis.solarflux.reference.Reference;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.config.Configuration;
-
-import java.io.File;
-import java.util.List;
 
 public class ModConfiguration {
+
     public static final List<TierConfiguration> DEFAULT_TIER_CONFIGURATIONS = ImmutableList.of(
-            new TierConfiguration(2, 50 * MetricUnits.KILO),
-            new TierConfiguration(2 * 8, 250 * MetricUnits.KILO),
-            new TierConfiguration(2 * 8 * 4, 850 * MetricUnits.KILO),
-            new TierConfiguration(2 * 8 * 4 * 4, 4 * MetricUnits.MEGA),
-            new TierConfiguration(2 * 8 * 4 * 4 * 4, 16 * MetricUnits.MEGA),
-            new TierConfiguration(2 * 8 * 4 * 4 * 4 * 4, 60 * MetricUnits.MEGA));
+        new TierConfiguration(2, 50 * MetricUnits.KILO),
+        new TierConfiguration(2 * 8, 250 * MetricUnits.KILO),
+        new TierConfiguration(2 * 8 * 4, 850 * MetricUnits.KILO),
+        new TierConfiguration(2 * 8 * 4 * 4, 4 * MetricUnits.MEGA),
+        new TierConfiguration(2 * 8 * 4 * 4 * 4, 16 * MetricUnits.MEGA),
+        new TierConfiguration(2 * 8 * 4 * 4 * 4 * 4, 60 * MetricUnits.MEGA));
     private static final String UPGRADE_CATEGORY = "upgrades";
     private static Configuration mConfiguration;
     private static float mSolarPanelHeight;
@@ -60,63 +63,65 @@ public class ModConfiguration {
         if (mConfiguration == null) {
             mConfiguration = new Configuration(pConfigFile);
         }
-        FMLCommonHandler.instance().bus().register(new ModConfiguration());
+        FMLCommonHandler.instance()
+            .bus()
+            .register(new ModConfiguration());
         loadConfiguration();
     }
 
     private static void loadConfiguration() {
         Preconditions.checkNotNull(mConfiguration);
         mSolarPanelHeight = mConfiguration.getFloat(
-                "SolarPanelHeight",
-                Configuration.CATEGORY_GENERAL,
-                0.375F,
-                0.01F,
-                1,
-                "The height of the Solar Panel blocks.");
+            "SolarPanelHeight",
+            Configuration.CATEGORY_GENERAL,
+            0.375F,
+            0.01F,
+            1,
+            "The height of the Solar Panel blocks.");
         mAutoBalanceEnergy = mConfiguration.getBoolean(
-                "BalanceEnergy",
-                Configuration.CATEGORY_GENERAL,
-                true,
-                "Neighbor solar panels share their energy if set to true.");
+            "BalanceEnergy",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Neighbor solar panels share their energy if set to true.");
         mUseThermalExpansionRecipes = mConfiguration.getBoolean(
-                "UseThermalExpansionRecipes",
-                Configuration.CATEGORY_GENERAL,
-                true,
-                "Use Thermal Expansion recipes.");
+            "UseThermalExpansionRecipes",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Use Thermal Expansion recipes.");
         mKeepEnergyWhenDismantled = mConfiguration.getBoolean(
-                "KeepEnergyWhenDismantled",
-                Configuration.CATEGORY_GENERAL,
-                true,
-                "Whether or not the solar panels keep their internal energy when dismantled with a wrench.");
+            "KeepEnergyWhenDismantled",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Whether or not the solar panels keep their internal energy when dismantled with a wrench.");
         mKeepInventoryWhenDismantled = mConfiguration.getBoolean(
-                "KeepInventoryWhenDismantled",
-                Configuration.CATEGORY_GENERAL,
-                true,
-                "Whether or not the solar panels keep their internal inventory when dismantled with a wrench.");
+            "KeepInventoryWhenDismantled",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Whether or not the solar panels keep their internal inventory when dismantled with a wrench.");
         mRainGenerationFactor = mConfiguration.getFloat(
-                "RainProductionFactor",
-                Configuration.CATEGORY_GENERAL,
-                0.4f,
-                0,
-                1,
-                "Factor used to reduce the energy generation during rainy weather.");
+            "RainProductionFactor",
+            Configuration.CATEGORY_GENERAL,
+            0.4f,
+            0,
+            1,
+            "Factor used to reduce the energy generation during rainy weather.");
         mThunderGenerationFactor = mConfiguration.getFloat(
-                "ThunderProductionFactor",
-                Configuration.CATEGORY_GENERAL,
-                0.4f,
-                0,
-                1,
-                "Factor used to reduce the energy generation during stormy weather.");
+            "ThunderProductionFactor",
+            Configuration.CATEGORY_GENERAL,
+            0.4f,
+            0,
+            1,
+            "Factor used to reduce the energy generation during stormy weather.");
         mInfoOnSneakClick = mConfiguration.getBoolean(
-                "SneakClickInfo",
-                Configuration.CATEGORY_GENERAL,
-                false,
-                "Display Solar Panel information on right click while sneaking.");
+            "SneakClickInfo",
+            Configuration.CATEGORY_GENERAL,
+            false,
+            "Display Solar Panel information on right click while sneaking.");
         mConnectedTextures = mConfiguration.getBoolean(
-                "ConnectedTextures",
-                Configuration.CATEGORY_GENERAL,
-                true,
-                "Use connected textures for the solar panels.");
+            "ConnectedTextures",
+            Configuration.CATEGORY_GENERAL,
+            true,
+            "Use connected textures for the solar panels.");
 
         loadTierConfigurations();
         loadUpgradesConfiguration();
@@ -167,7 +172,7 @@ public class ModConfiguration {
 
     private static void loadTierConfigurations() {
         mTierConfigurations = Lists.newArrayList();
-        for (int tier = 0; ; ++tier) {
+        for (int tier = 0;; ++tier) {
             TierConfiguration config = loadTierConfiguration(tier);
             if (config == null) {
                 break;
@@ -180,10 +185,10 @@ public class ModConfiguration {
     private static TierConfiguration loadTierConfiguration(int pTierNumber) {
         String category = "solar_panel_tier" + pTierNumber;
         boolean active = mConfiguration.getBoolean(
-                "Active",
-                category,
-                pTierNumber < DEFAULT_TIER_CONFIGURATIONS.size(),
-                "Whether or not this tier of Solar Panel should be added to the game.");
+            "Active",
+            category,
+            pTierNumber < DEFAULT_TIER_CONFIGURATIONS.size(),
+            "Whether or not this tier of Solar Panel should be added to the game.");
         if (active) {
             // Find a default config for the default values
             TierConfiguration defaultConfig;
@@ -193,33 +198,33 @@ public class ModConfiguration {
                 int deltaTier = pTierNumber - DEFAULT_TIER_CONFIGURATIONS.size() + 1;
                 TierConfiguration lastConfig = DEFAULT_TIER_CONFIGURATIONS.get(DEFAULT_TIER_CONFIGURATIONS.size() - 1);
                 defaultConfig = new TierConfiguration(
-                        (int) (lastConfig.getMaximumEnergyGeneration() * Math.pow(2, deltaTier)),
-                        (int) (lastConfig.getMaximumEnergyTransfer() * Math.pow(2, deltaTier)),
-                        (int) (lastConfig.getCapacity() * Math.pow(1.2, deltaTier)));
+                    (int) (lastConfig.getMaximumEnergyGeneration() * Math.pow(2, deltaTier)),
+                    (int) (lastConfig.getMaximumEnergyTransfer() * Math.pow(2, deltaTier)),
+                    (int) (lastConfig.getCapacity() * Math.pow(1.2, deltaTier)));
             }
 
             return new TierConfiguration(
-                    mConfiguration.getInt(
-                            "MaximumEnergyGeneration",
-                            category,
-                            defaultConfig.getMaximumEnergyGeneration(),
-                            1,
-                            2 * MetricUnits.GIGA,
-                            "Maximum amount of RF generated per tick."),
-                    mConfiguration.getInt(
-                            "MaximumEnergyTransfer",
-                            category,
-                            defaultConfig.getMaximumEnergyTransfer(),
-                            1,
-                            2 * MetricUnits.GIGA,
-                            "Maximum amount of RF transferred per tick."),
-                    mConfiguration.getInt(
-                            "Capacity",
-                            category,
-                            defaultConfig.getCapacity(),
-                            1,
-                            2 * MetricUnits.GIGA,
-                            "Amount of RF that can be stored."));
+                mConfiguration.getInt(
+                    "MaximumEnergyGeneration",
+                    category,
+                    defaultConfig.getMaximumEnergyGeneration(),
+                    1,
+                    2 * MetricUnits.GIGA,
+                    "Maximum amount of RF generated per tick."),
+                mConfiguration.getInt(
+                    "MaximumEnergyTransfer",
+                    category,
+                    defaultConfig.getMaximumEnergyTransfer(),
+                    1,
+                    2 * MetricUnits.GIGA,
+                    "Maximum amount of RF transferred per tick."),
+                mConfiguration.getInt(
+                    "Capacity",
+                    category,
+                    defaultConfig.getCapacity(),
+                    1,
+                    2 * MetricUnits.GIGA,
+                    "Amount of RF that can be stored."));
         }
         return null;
     }

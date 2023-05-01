@@ -1,7 +1,8 @@
 package com.nauktis.core.gui;
 
-import com.google.common.collect.Maps;
-import com.nauktis.core.utility.Utils;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -9,14 +10,15 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Maps;
+import com.nauktis.core.utility.Utils;
 
 /**
  * Base class for any Container.
  * Parts of the code inspired by code from Pahinar, VSWE and Bdew
  */
 public class BaseModContainer extends Container {
+
     protected static final int MOUSE_LEFT_CLICK = 0;
     protected static final int MOUSE_RIGHT_CLICK = 1;
     protected static final int FAKE_SLOT_ID = -999;
@@ -38,7 +40,8 @@ public class BaseModContainer extends Container {
      * Sends the value to the client only if it has changed or if the force flag is set.
      */
     protected void sendProgressBarUpdateIfChanged(int pType, int pValue, boolean pForce) {
-        if (pForce || !(mProgressBarValues.containsKey(pType) && mProgressBarValues.get(pType).equals(pValue))) {
+        if (pForce || !(mProgressBarValues.containsKey(pType) && mProgressBarValues.get(pType)
+            .equals(pValue))) {
             for (ICrafting crafting : getCraftings()) {
                 crafting.sendProgressBarUpdate(this, pType, pValue);
             }
@@ -64,25 +67,28 @@ public class BaseModContainer extends Container {
 
     protected void addPlayerInventorySlotsToContainer(InventoryPlayer pInventoryPlayer, int pLeft, int pTop) {
         for (int inventoryRowIndex = 0; inventoryRowIndex < PLAYER_INVENTORY_ROWS; ++inventoryRowIndex) {
-            for (int inventoryColumnIndex = 0; inventoryColumnIndex < PLAYER_INVENTORY_COLUMNS; ++inventoryColumnIndex) {
+            for (int inventoryColumnIndex = 0; inventoryColumnIndex
+                < PLAYER_INVENTORY_COLUMNS; ++inventoryColumnIndex) {
                 addSlotToContainer(
-                        new Slot(
-                                pInventoryPlayer,
-                                inventoryColumnIndex + inventoryRowIndex * 9 + 9,
-                                pLeft + inventoryColumnIndex * 18,
-                                pTop + inventoryRowIndex * 18));
+                    new Slot(
+                        pInventoryPlayer,
+                        inventoryColumnIndex + inventoryRowIndex * 9 + 9,
+                        pLeft + inventoryColumnIndex * 18,
+                        pTop + inventoryRowIndex * 18));
             }
         }
     }
 
     protected void addPlayerActionSlotsToContainer(InventoryPlayer pInventoryPlayer, int pLeft, int pTop) {
         for (int actionBarSlotIndex = 0; actionBarSlotIndex < 9; ++actionBarSlotIndex) {
-            this.addSlotToContainer(new Slot(pInventoryPlayer, actionBarSlotIndex, pLeft + actionBarSlotIndex * 18, pTop));
+            this.addSlotToContainer(
+                new Slot(pInventoryPlayer, actionBarSlotIndex, pLeft + actionBarSlotIndex * 18, pTop));
         }
     }
 
     /**
-     * Tries to add an ItemStack to slots in the range specified. It will first try to merge to an existing stack before using an empty one.
+     * Tries to add an ItemStack to slots in the range specified. It will first try to merge to an existing stack before
+     * using an empty one.
      *
      * @returns true if a slot was found.
      */
@@ -97,7 +103,8 @@ public class BaseModContainer extends Container {
 
         // Try to merge to an existing ItemStack
         if (pItemStack.isStackable()) {
-            while (pItemStack.stackSize > 0 && (!pAscending && currentSlotIndex < pSlotMax || pAscending && currentSlotIndex >= pSlotMin)) {
+            while (pItemStack.stackSize > 0
+                && (!pAscending && currentSlotIndex < pSlotMax || pAscending && currentSlotIndex >= pSlotMin)) {
                 slot = getSlot(currentSlotIndex);
                 stackInSlot = slot.getStack();
 

@@ -1,15 +1,17 @@
 package com.nauktis.core.inventory;
 
-import com.nauktis.solarflux.reference.NBTConstants;
+import static com.google.common.base.Preconditions.checkArgument;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import com.nauktis.solarflux.reference.NBTConstants;
 
 public class BaseInventory implements IInventory {
+
     private final String mInventoryName;
     private ItemStack[] mItemStacks;
 
@@ -123,8 +125,7 @@ public class BaseInventory implements IInventory {
     }
 
     @Override
-    public void markDirty() {
-    }
+    public void markDirty() {}
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer pEntityPlayer) {
@@ -132,12 +133,10 @@ public class BaseInventory implements IInventory {
     }
 
     @Override
-    public void openInventory() {
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeInventory() {
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int pSlotIndex, ItemStack pItemStack) {

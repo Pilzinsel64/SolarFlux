@@ -1,7 +1,5 @@
 package com.nauktis.core.block;
 
-import com.nauktis.core.block.icon.IBlockIconHandler;
-import com.nauktis.core.utility.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.inventory.IInventory;
@@ -9,7 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import com.nauktis.core.block.icon.IBlockIconHandler;
+import com.nauktis.core.utility.Utils;
+
 public abstract class BaseModBlockWithTileEntity extends BaseModBlock implements ITileEntityProvider {
+
     public BaseModBlockWithTileEntity(String pModId, String pName, IBlockIconHandler pBlockIconHandler) {
         super(pModId, pName, pBlockIconHandler);
         isBlockContainer = true;

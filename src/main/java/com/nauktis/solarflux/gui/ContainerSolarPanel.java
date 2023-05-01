@@ -1,17 +1,20 @@
 package com.nauktis.solarflux.gui;
 
-import com.nauktis.core.gui.BaseModContainer;
-import com.nauktis.core.utility.Utils;
-import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
-import com.nauktis.solarflux.items.UpgradeItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import com.nauktis.core.gui.BaseModContainer;
+import com.nauktis.core.utility.Utils;
+import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
+import com.nauktis.solarflux.items.UpgradeItem;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ContainerSolarPanel extends BaseModContainer {
+
     private final SolarPanelTileEntity mSolarPanelTileEntity;
 
     public ContainerSolarPanel(InventoryPlayer pInventoryPlayer, SolarPanelTileEntity pSolarPanelTileEntity) {
@@ -28,7 +31,8 @@ public class ContainerSolarPanel extends BaseModContainer {
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        boolean forceUpdate = (mSolarPanelTileEntity.getWorldObj().getWorldTime() % 40) == 0;
+        boolean forceUpdate = (mSolarPanelTileEntity.getWorldObj()
+            .getWorldTime() % 40) == 0;
         sendProgressBarUpdateIfChanged(0, mSolarPanelTileEntity.getEnergyStored() & 0xFFFF, forceUpdate);
         sendProgressBarUpdateIfChanged(1, mSolarPanelTileEntity.getEnergyStored() >>> 16, forceUpdate);
         sendProgressBarUpdateIfChanged(2, mSolarPanelTileEntity.getCurrentEnergyGeneration() & 0xFFFF, false);
@@ -47,10 +51,12 @@ public class ContainerSolarPanel extends BaseModContainer {
             mSolarPanelTileEntity.setEnergyStored(mSolarPanelTileEntity.getEnergyStored() & 0xFFFF | (pValue << 16));
         }
         if (pIndex == 2) {
-            mSolarPanelTileEntity.setCurrentEnergyGeneration((mSolarPanelTileEntity.getCurrentEnergyGeneration() & 0xFFFF0000) | pValue);
+            mSolarPanelTileEntity
+                .setCurrentEnergyGeneration((mSolarPanelTileEntity.getCurrentEnergyGeneration() & 0xFFFF0000) | pValue);
         }
         if (pIndex == 3) {
-            mSolarPanelTileEntity.setCurrentEnergyGeneration(mSolarPanelTileEntity.getCurrentEnergyGeneration() & 0xFFFF | (pValue << 16));
+            mSolarPanelTileEntity.setCurrentEnergyGeneration(
+                mSolarPanelTileEntity.getCurrentEnergyGeneration() & 0xFFFF | (pValue << 16));
         }
         if (pIndex == 4) {
             mSolarPanelTileEntity.setSunIntensity(pValue / 100.0f);
@@ -81,7 +87,8 @@ public class ContainerSolarPanel extends BaseModContainer {
 
                 // Special treatment for upgrades
                 if (slotItemStack.getItem() instanceof UpgradeItem) {
-                    int canAdd = Math.min(mSolarPanelTileEntity.additionalUpgradeAllowed(slotItemStack), slotItemStack.stackSize);
+                    int canAdd = Math
+                        .min(mSolarPanelTileEntity.additionalUpgradeAllowed(slotItemStack), slotItemStack.stackSize);
                     if (canAdd > 0) {
                         ItemStack merging = slotItemStack.splitStack(canAdd);
                         if (mergeItemStack(merging, 0, SolarPanelTileEntity.INVENTORY_SIZE, false)) {
@@ -114,11 +121,14 @@ public class ContainerSolarPanel extends BaseModContainer {
     @Override
     public ItemStack slotClick(int pSlotIndex, int pMouseButton, int pClickMode, EntityPlayer pPlayer) {
         ItemStack oldItemStack = pPlayer.inventory.getItemStack();
-        if (SolarPanelTileEntity.UPGRADE_SLOTS.contains(pSlotIndex) && oldItemStack != null && oldItemStack.getItem() instanceof UpgradeItem) {
-            if (pClickMode == CLICK_MODE_NORMAL && (pMouseButton == MOUSE_LEFT_CLICK || pMouseButton == MOUSE_RIGHT_CLICK)) {
+        if (SolarPanelTileEntity.UPGRADE_SLOTS.contains(pSlotIndex) && oldItemStack != null
+            && oldItemStack.getItem() instanceof UpgradeItem) {
+            if (pClickMode == CLICK_MODE_NORMAL
+                && (pMouseButton == MOUSE_LEFT_CLICK || pMouseButton == MOUSE_RIGHT_CLICK)) {
                 // TODO add a check for slot -999 (had a crash before line just below)
                 ItemStack currentItemInSlot = mSolarPanelTileEntity.getStackInSlot(pSlotIndex);
-                if (currentItemInSlot == null || Utils.itemStacksEqualIgnoreStackSize(oldItemStack, currentItemInSlot)) {
+                if (currentItemInSlot == null
+                    || Utils.itemStacksEqualIgnoreStackSize(oldItemStack, currentItemInSlot)) {
                     int canAdd = mSolarPanelTileEntity.additionalUpgradeAllowed(oldItemStack);
                     if (canAdd > 0) {
                         if (pMouseButton == MOUSE_RIGHT_CLICK) {

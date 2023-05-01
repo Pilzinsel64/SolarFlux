@@ -1,17 +1,24 @@
 package com.nauktis.solarflux.gui;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import com.nauktis.core.gui.BaseModGui;
 import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
 import com.nauktis.solarflux.reference.Reference;
 import com.nauktis.solarflux.utility.Lang;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class GuiSolarPanel extends BaseModGui {
-    private static final ResourceLocation ELEMENTS = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/elements.png");
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/solar.png");
+
+    private static final ResourceLocation ELEMENTS = new ResourceLocation(
+        Reference.MOD_ID.toLowerCase(),
+        "textures/gui/elements.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(
+        Reference.MOD_ID.toLowerCase(),
+        "textures/gui/solar.png");
     private static final int GAUGE_WIDTH = 18;
     private static final int GAUGE_HEIGHT = 50;
     private static final int GAUGE_INNER_WIDTH = GAUGE_WIDTH - 2;
@@ -39,50 +46,67 @@ public class GuiSolarPanel extends BaseModGui {
     @Override
     protected void drawGuiContainerForegroundLayer(int pMouseX, int pMouseY) {
         fontRendererObj.drawString(
-                mInventoryPlayer.hasCustomInventoryName() ? mInventoryPlayer.getInventoryName() : I18n.format(mInventoryPlayer.getInventoryName()),
-                BORDER_OFFSET,
-                ySize - 96 + 2,
-                0x404040);
+            mInventoryPlayer.hasCustomInventoryName() ? mInventoryPlayer.getInventoryName()
+                : I18n.format(mInventoryPlayer.getInventoryName()),
+            BORDER_OFFSET,
+            ySize - 96 + 2,
+            0x404040);
 
         fontRendererObj.drawString(
-                String.format("%s: %,d %s", Lang.localise("energy.stored"), mSolarPanelTileEntity.getEnergyStored(), Lang.localise("rf")),
-                BORDER_OFFSET,
-                BORDER_OFFSET,
-                0x404040);
+            String.format(
+                "%s: %,d %s",
+                Lang.localise("energy.stored"),
+                mSolarPanelTileEntity.getEnergyStored(),
+                Lang.localise("rf")),
+            BORDER_OFFSET,
+            BORDER_OFFSET,
+            0x404040);
 
         fontRendererObj.drawString(
-                String.format("%s: %,d %s", Lang.localise("energy.capacity"), mSolarPanelTileEntity.getMaxEnergyStored(), Lang.localise("rf")),
-                BORDER_OFFSET,
-                BORDER_OFFSET + 10,
-                0x404040);
+            String.format(
+                "%s: %,d %s",
+                Lang.localise("energy.capacity"),
+                mSolarPanelTileEntity.getMaxEnergyStored(),
+                Lang.localise("rf")),
+            BORDER_OFFSET,
+            BORDER_OFFSET + 10,
+            0x404040);
 
         fontRendererObj.drawString(
-                String.format("%s: %,d %s", Lang.localise("energy.generation"), mSolarPanelTileEntity.getCurrentEnergyGeneration(), Lang.localise("rfPerTick")),
-                BORDER_OFFSET,
-                BORDER_OFFSET + 20,
-                0x404040);
+            String.format(
+                "%s: %,d %s",
+                Lang.localise("energy.generation"),
+                mSolarPanelTileEntity.getCurrentEnergyGeneration(),
+                Lang.localise("rfPerTick")),
+            BORDER_OFFSET,
+            BORDER_OFFSET + 20,
+            0x404040);
 
         fontRendererObj.drawString(
-                String.format(
-                        "%s: %,d%%",
-                        Lang.localise("energy.efficiency"),
-                        Math.round(100D * mSolarPanelTileEntity.getCurrentEnergyGeneration() / mSolarPanelTileEntity.getMaximumEnergyGeneration())),
-                BORDER_OFFSET,
-                BORDER_OFFSET + 30,
-                0x404040);
+            String.format(
+                "%s: %,d%%",
+                Lang.localise("energy.efficiency"),
+                Math.round(
+                    100D * mSolarPanelTileEntity.getCurrentEnergyGeneration()
+                        / mSolarPanelTileEntity.getMaximumEnergyGeneration())),
+            BORDER_OFFSET,
+            BORDER_OFFSET + 30,
+            0x404040);
         super.drawGuiContainerForegroundLayer(pMouseX, pMouseY);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float pOpacity, int pMouseX, int pMouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.getTextureManager().bindTexture(TEXTURE);
+        mc.getTextureManager()
+            .bindTexture(TEXTURE);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
 
         // Prepare
-        this.mc.getTextureManager().bindTexture(ELEMENTS);
+        this.mc.getTextureManager()
+            .bindTexture(ELEMENTS);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
 
@@ -92,7 +116,11 @@ public class GuiSolarPanel extends BaseModGui {
         }
 
         drawPower(xStart + xSize - GAUGE_WIDTH - BORDER_OFFSET, yStart + BORDER_OFFSET, pMouseX, pMouseY);
-        drawSun(xStart + xSize - 2 * GAUGE_WIDTH - BORDER_OFFSET - BORDER_OFFSET / 2, yStart + BORDER_OFFSET, pMouseX, pMouseY);
+        drawSun(
+            xStart + xSize - 2 * GAUGE_WIDTH - BORDER_OFFSET - BORDER_OFFSET / 2,
+            yStart + BORDER_OFFSET,
+            pMouseX,
+            pMouseY);
     }
 
     /**
@@ -101,25 +129,31 @@ public class GuiSolarPanel extends BaseModGui {
     private void drawPower(int pLeft, int pTop, int pMouseX, int pMouseY) {
         // Background color.
         drawTexturedModalRect(
-                pLeft + GAUGE_INNER_OFFSET_X,
-                pTop + GAUGE_INNER_OFFSET_Y,
-                GAUGE_INNER_SRC_X + GAUGE_INNER_WIDTH,
-                GAUGE_INNER_SRC_Y,
-                GAUGE_INNER_WIDTH,
-                GAUGE_INNER_HEIGHT);
+            pLeft + GAUGE_INNER_OFFSET_X,
+            pTop + GAUGE_INNER_OFFSET_Y,
+            GAUGE_INNER_SRC_X + GAUGE_INNER_WIDTH,
+            GAUGE_INNER_SRC_Y,
+            GAUGE_INNER_WIDTH,
+            GAUGE_INNER_HEIGHT);
 
         int height = mSolarPanelTileEntity.getScaledEnergyStoredFraction(GAUGE_INNER_HEIGHT);
         int offset = GAUGE_INNER_HEIGHT - height;
         // Foreground color (level).
         drawTexturedModalRect(
-                pLeft + GAUGE_INNER_OFFSET_X,
-                pTop + GAUGE_INNER_OFFSET_Y + offset,
-                GAUGE_INNER_SRC_X,
-                GAUGE_INNER_SRC_Y + offset,
-                GAUGE_INNER_WIDTH,
-                height);
+            pLeft + GAUGE_INNER_OFFSET_X,
+            pTop + GAUGE_INNER_OFFSET_Y + offset,
+            GAUGE_INNER_SRC_X,
+            GAUGE_INNER_SRC_Y + offset,
+            GAUGE_INNER_WIDTH,
+            height);
         // Little bar.
-        drawTexturedModalRect(pLeft, pTop + GAUGE_INNER_OFFSET_Y + offset - 1, GAUGE_SRC_X, GAUGE_SRC_Y - 1, GAUGE_WIDTH, 1);
+        drawTexturedModalRect(
+            pLeft,
+            pTop + GAUGE_INNER_OFFSET_Y + offset - 1,
+            GAUGE_SRC_X,
+            GAUGE_SRC_Y - 1,
+            GAUGE_WIDTH,
+            1);
 
         int srcX = GAUGE_SRC_X;
         boolean hover = inBounds(pLeft, pTop, GAUGE_WIDTH, GAUGE_HEIGHT, pMouseX, pMouseY);
@@ -132,10 +166,10 @@ public class GuiSolarPanel extends BaseModGui {
 
         if (hover) {
             String str = String.format(
-                    "%s: %,d/%,d",
-                    Lang.localise("energy.stored"),
-                    mSolarPanelTileEntity.getEnergyStored(),
-                    mSolarPanelTileEntity.getMaxEnergyStored());
+                "%s: %,d/%,d",
+                Lang.localise("energy.stored"),
+                mSolarPanelTileEntity.getEnergyStored(),
+                mSolarPanelTileEntity.getMaxEnergyStored());
             drawMouseOver(str);
         }
     }
@@ -147,25 +181,31 @@ public class GuiSolarPanel extends BaseModGui {
         // TODO Refactor to remove this ugly copy/paste.
         // Background color.
         drawTexturedModalRect(
-                pLeft + GAUGE_INNER_OFFSET_X,
-                pTop + GAUGE_INNER_OFFSET_Y,
-                32 + GAUGE_INNER_SRC_X + GAUGE_INNER_WIDTH,
-                GAUGE_INNER_SRC_Y,
-                GAUGE_INNER_WIDTH,
-                GAUGE_INNER_HEIGHT);
+            pLeft + GAUGE_INNER_OFFSET_X,
+            pTop + GAUGE_INNER_OFFSET_Y,
+            32 + GAUGE_INNER_SRC_X + GAUGE_INNER_WIDTH,
+            GAUGE_INNER_SRC_Y,
+            GAUGE_INNER_WIDTH,
+            GAUGE_INNER_HEIGHT);
 
         int height = (int) (GAUGE_INNER_HEIGHT * mSolarPanelTileEntity.getSunIntensity());
         int offset = GAUGE_INNER_HEIGHT - height;
         // Foreground color (level).
         drawTexturedModalRect(
-                pLeft + GAUGE_INNER_OFFSET_X,
-                pTop + GAUGE_INNER_OFFSET_Y + offset,
-                32 + GAUGE_INNER_SRC_X,
-                GAUGE_INNER_SRC_Y + offset,
-                GAUGE_INNER_WIDTH,
-                height);
+            pLeft + GAUGE_INNER_OFFSET_X,
+            pTop + GAUGE_INNER_OFFSET_Y + offset,
+            32 + GAUGE_INNER_SRC_X,
+            GAUGE_INNER_SRC_Y + offset,
+            GAUGE_INNER_WIDTH,
+            height);
         // Little bar.
-        drawTexturedModalRect(pLeft, pTop + GAUGE_INNER_OFFSET_Y + offset - 1, GAUGE_SRC_X + GAUGE_WIDTH, GAUGE_SRC_Y - 1, GAUGE_WIDTH, 1);
+        drawTexturedModalRect(
+            pLeft,
+            pTop + GAUGE_INNER_OFFSET_Y + offset - 1,
+            GAUGE_SRC_X + GAUGE_WIDTH,
+            GAUGE_SRC_Y - 1,
+            GAUGE_WIDTH,
+            1);
 
         int srcX = GAUGE_SRC_X;
         boolean hover = inBounds(pLeft, pTop, GAUGE_WIDTH, GAUGE_HEIGHT, pMouseX, pMouseY);
@@ -178,9 +218,9 @@ public class GuiSolarPanel extends BaseModGui {
 
         if (hover) {
             String str = String.format(
-                    "%s: %d%%",
-                    Lang.localise("sun.intensity"),
-                    (int) (100 * mSolarPanelTileEntity.getSunIntensity()));
+                "%s: %d%%",
+                Lang.localise("sun.intensity"),
+                (int) (100 * mSolarPanelTileEntity.getSunIntensity()));
             drawMouseOver(str);
         }
     }

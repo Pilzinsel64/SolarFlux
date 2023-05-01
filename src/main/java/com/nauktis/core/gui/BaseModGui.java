@@ -1,13 +1,15 @@
 package com.nauktis.core.gui;
 
-import com.google.common.collect.Lists;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+
+import com.google.common.collect.Lists;
+
 public abstract class BaseModGui extends GuiContainer {
+
     private List<String> mMouseHover = Lists.newArrayList();
 
     public BaseModGui(Container pContainer) {

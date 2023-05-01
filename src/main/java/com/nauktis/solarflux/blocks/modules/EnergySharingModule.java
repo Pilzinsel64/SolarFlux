@@ -1,9 +1,11 @@
 package com.nauktis.solarflux.blocks.modules;
 
-import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
+
 public class EnergySharingModule extends AbstractSolarPanelModule {
+
     private static final short DISTRIBUTION_TICK_RATE = 5 * 20;
 
     public EnergySharingModule(SolarPanelTileEntity pTileEntity) {
@@ -20,10 +22,12 @@ public class EnergySharingModule extends AbstractSolarPanelModule {
     }
 
     private void tryAutoBalanceEnergyAt(int pX, int pY, int pZ) {
-        TileEntity tile = getTileEntity().getWorldObj().getTileEntity(pX, pY, pZ);
+        TileEntity tile = getTileEntity().getWorldObj()
+            .getTileEntity(pX, pY, pZ);
         if (tile instanceof SolarPanelTileEntity) {
             SolarPanelTileEntity neighbor = (SolarPanelTileEntity) tile;
-            getTileEntity().getEnergyStorage().autoBalanceEnergy(neighbor.getEnergyStorage(), DISTRIBUTION_TICK_RATE);
+            getTileEntity().getEnergyStorage()
+                .autoBalanceEnergy(neighbor.getEnergyStorage(), DISTRIBUTION_TICK_RATE);
         }
     }
 }

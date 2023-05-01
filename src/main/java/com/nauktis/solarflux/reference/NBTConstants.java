@@ -1,6 +1,7 @@
 package com.nauktis.solarflux.reference;
 
 public final class NBTConstants {
+
     private static final String NBT_PREFIX = "SF";
     public static final String TIER_INDEX = NBT_PREFIX + "TierIndex";
     public static final String ITEMS = NBT_PREFIX + "Items";

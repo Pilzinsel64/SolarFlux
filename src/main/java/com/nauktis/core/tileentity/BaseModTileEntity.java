@@ -5,49 +5,49 @@ import net.minecraft.tileentity.TileEntity;
 
 public class BaseModTileEntity extends TileEntity {
 
-	public int x() {
-		return xCoord;
-	}
+    public int x() {
+        return xCoord;
+    }
 
-	public int y() {
-		return yCoord;
-	}
+    public int y() {
+        return yCoord;
+    }
 
-	public int z() {
-		return zCoord;
-	}
+    public int z() {
+        return zCoord;
+    }
 
-	public boolean isServer() {
-		return !isClient();
-	}
+    public boolean isServer() {
+        return !isClient();
+    }
 
-	public boolean isClient() {
-		return getWorldObj().isRemote;
-	}
+    public boolean isClient() {
+        return getWorldObj().isRemote;
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound pNBT) {
-		super.readFromNBT(pNBT);
-		loadDataFromNBT(pNBT);
-	}
+    @Override
+    public void readFromNBT(NBTTagCompound pNBT) {
+        super.readFromNBT(pNBT);
+        loadDataFromNBT(pNBT);
+    }
 
-	@Override
-	public void writeToNBT(NBTTagCompound pNBT) {
-		super.writeToNBT(pNBT);
-		addDataToNBT(pNBT);
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound pNBT) {
+        super.writeToNBT(pNBT);
+        addDataToNBT(pNBT);
+    }
 
-	/**
-	 * Override to save {@link TileEntity} specific data to the NBT tag
-	 */
-	protected void addDataToNBT(NBTTagCompound pNBT) {
+    /**
+     * Override to save {@link TileEntity} specific data to the NBT tag
+     */
+    protected void addDataToNBT(NBTTagCompound pNBT) {
 
-	}
+    }
 
-	/**
-	 * Override to load {@link TileEntity} specific data from the NBT tag
-	 */
-	protected void loadDataFromNBT(NBTTagCompound pNBT) {
+    /**
+     * Override to load {@link TileEntity} specific data from the NBT tag
+     */
+    protected void loadDataFromNBT(NBTTagCompound pNBT) {
 
-	}
+    }
 }

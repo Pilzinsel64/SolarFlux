@@ -1,22 +1,25 @@
 package com.nauktis.solarflux.blocks.modules;
 
-import cofh.api.energy.IEnergyReceiver;
-import com.google.common.collect.Lists;
-import com.nauktis.core.utility.BlockPosition;
-import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
-import com.nauktis.solarflux.config.ModConfiguration;
-import com.nauktis.solarflux.init.ModItems;
+import java.util.List;
+
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.List;
+import com.google.common.collect.Lists;
+import com.nauktis.core.utility.BlockPosition;
+import com.nauktis.solarflux.blocks.SolarPanelTileEntity;
+import com.nauktis.solarflux.config.ModConfiguration;
+import com.nauktis.solarflux.init.ModItems;
+
+import cofh.api.energy.IEnergyReceiver;
 
 /**
  * Module used to distribute energy to neighbor blocks.
  */
 public class SimpleEnergyDispenserModule extends AbstractSolarPanelModule {
+
     private final List<BlockPosition> mTargets = Lists.newArrayList();
     private int mTargetStartingIndex;
     private int mFurnaceEnergyBuffer;
@@ -34,7 +37,7 @@ public class SimpleEnergyDispenserModule extends AbstractSolarPanelModule {
     }
 
     protected int getTargetRefreshRate() {
-        //TODO Should this be a config option?
+        // TODO Should this be a config option?
         return 2 * 20;
     }
 
@@ -63,29 +66,38 @@ public class SimpleEnergyDispenserModule extends AbstractSolarPanelModule {
     }
 
     protected boolean isValidTarget(BlockPosition pPosition) {
-        TileEntity tile = getTileEntity().getWorldObj().getTileEntity(pPosition.x(), pPosition.y(), pPosition.z());
-        return tile instanceof IEnergyReceiver || (getTileEntity().getUpgradeCount(ModItems.mUpgradeFurnace) > 0 && tile instanceof TileEntityFurnace);
+        TileEntity tile = getTileEntity().getWorldObj()
+            .getTileEntity(pPosition.x(), pPosition.y(), pPosition.z());
+        return tile instanceof IEnergyReceiver
+            || (getTileEntity().getUpgradeCount(ModItems.mUpgradeFurnace) > 0 && tile instanceof TileEntityFurnace);
     }
 
     protected void sendEnergyTo(BlockPosition pBlockPosition) {
-        TileEntity tile = getTileEntity().getWorldObj().getTileEntity(pBlockPosition.x(), pBlockPosition.y(), pBlockPosition.z());
+        TileEntity tile = getTileEntity().getWorldObj()
+            .getTileEntity(pBlockPosition.x(), pBlockPosition.y(), pBlockPosition.z());
         if (tile instanceof IEnergyReceiver) {
-            sendEnergyToReceiver((IEnergyReceiver) tile, pBlockPosition.getDirection().getOpposite());
+            sendEnergyToReceiver(
+                (IEnergyReceiver) tile,
+                pBlockPosition.getDirection()
+                    .getOpposite());
         } else if (getTileEntity().getUpgradeCount(ModItems.mUpgradeFurnace) > 0 && tile instanceof TileEntityFurnace) {
             sendEnergyToFurnace((TileEntityFurnace) tile);
         }
     }
 
     protected void sendEnergyToReceiver(IEnergyReceiver pEnergyReceiver, ForgeDirection pFrom) {
-        getTileEntity().getEnergyStorage().sendMaxTo(pEnergyReceiver, pFrom);
+        getTileEntity().getEnergyStorage()
+            .sendMaxTo(pEnergyReceiver, pFrom);
     }
 
     protected void sendEnergyToFurnace(TileEntityFurnace pFurnace) {
         final int FURNACE_COOKING_TICKS = 200;
-        final int FURNACE_COOKING_ENERGY = FURNACE_COOKING_TICKS * ModConfiguration.getFurnaceUpgradeHeatingConsumption();
+        final int FURNACE_COOKING_ENERGY = FURNACE_COOKING_TICKS
+            * ModConfiguration.getFurnaceUpgradeHeatingConsumption();
 
         if (mFurnaceEnergyBuffer < FURNACE_COOKING_ENERGY) {
-            mFurnaceEnergyBuffer += getTileEntity().getEnergyStorage().extractEnergy(FURNACE_COOKING_ENERGY - mFurnaceEnergyBuffer, false);
+            mFurnaceEnergyBuffer += getTileEntity().getEnergyStorage()
+                .extractEnergy(FURNACE_COOKING_ENERGY - mFurnaceEnergyBuffer, false);
         }
 
         // Is there anything to smell?
@@ -95,7 +107,12 @@ public class SimpleEnergyDispenserModule extends AbstractSolarPanelModule {
                 if (pFurnace.furnaceBurnTime == 0) {
                     // Add 1 as first tick is not counted in the burning process.
                     pFurnace.furnaceBurnTime += 1;
-                    BlockFurnace.updateFurnaceBlockState(pFurnace.furnaceBurnTime > 0, pFurnace.getWorldObj(), pFurnace.xCoord, pFurnace.yCoord, pFurnace.zCoord);
+                    BlockFurnace.updateFurnaceBlockState(
+                        pFurnace.furnaceBurnTime > 0,
+                        pFurnace.getWorldObj(),
+                        pFurnace.xCoord,
+                        pFurnace.yCoord,
+                        pFurnace.zCoord);
                 }
                 pFurnace.furnaceBurnTime += FURNACE_COOKING_TICKS;
                 mFurnaceEnergyBuffer -= FURNACE_COOKING_TICKS * ModConfiguration.getFurnaceUpgradeHeatingConsumption();

@@ -1,6 +1,7 @@
 package com.nauktis.core.utility;
 
 public enum Color {
+
     BLACK("\u00a70"),
     WHITE("\u00a7f"),
     GREY("\u00a77"),

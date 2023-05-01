@@ -7,23 +7,24 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class BaseModTileEntitySynced extends BaseModTileEntity {
-	/**
-	 * Prepare a Packet to send the state of the {@link TileEntity} to the Client
-	 */
-	@Override
-	public Packet getDescriptionPacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		addDataToNBT(nbt);
-		return new S35PacketUpdateTileEntity(x(), y(), z(), 1, nbt);
-	}
 
-	/**
-	 * Process a Packet to update the state of the {@link TileEntity} on the Client
-	 */
-	@Override
-	public void onDataPacket(NetworkManager pNet, S35PacketUpdateTileEntity pPacket) {
-		super.onDataPacket(pNet, pPacket);
-		NBTTagCompound nbt = pPacket.func_148857_g();
-		loadDataFromNBT(nbt);
-	}
+    /**
+     * Prepare a Packet to send the state of the {@link TileEntity} to the Client
+     */
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound nbt = new NBTTagCompound();
+        addDataToNBT(nbt);
+        return new S35PacketUpdateTileEntity(x(), y(), z(), 1, nbt);
+    }
+
+    /**
+     * Process a Packet to update the state of the {@link TileEntity} on the Client
+     */
+    @Override
+    public void onDataPacket(NetworkManager pNet, S35PacketUpdateTileEntity pPacket) {
+        super.onDataPacket(pNet, pPacket);
+        NBTTagCompound nbt = pPacket.func_148857_g();
+        loadDataFromNBT(nbt);
+    }
 }

@@ -1,13 +1,16 @@
 package com.nauktis.solarflux.blocks;
 
-import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
-import com.google.common.base.Objects;
-import com.nauktis.solarflux.reference.NBTConstants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.google.common.base.Objects;
+import com.nauktis.solarflux.reference.NBTConstants;
+
+import cofh.api.energy.IEnergyReceiver;
+import cofh.api.energy.IEnergyStorage;
+
 public class StatefulEnergyStorage implements IEnergyStorage {
+
     protected int mEnergy;
     protected int mCapacity;
     protected int mMaxTransferReceive;
@@ -154,10 +157,10 @@ public class StatefulEnergyStorage implements IEnergyStorage {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("energy", getEnergyStored())
-                .add("capacity", getMaxEnergyStored())
-                .add("maxTransferReceive", getMaxTransferReceive())
-                .add("maxTransferExtract", getMaxTransferExtract())
-                .toString();
+            .add("energy", getEnergyStored())
+            .add("capacity", getMaxEnergyStored())
+            .add("maxTransferReceive", getMaxTransferReceive())
+            .add("maxTransferExtract", getMaxTransferExtract())
+            .toString();
     }
 }

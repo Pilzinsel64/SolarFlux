@@ -1,12 +1,13 @@
 package com.nauktis.core.block.icon;
 
+import static java.util.Objects.requireNonNull;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-import static java.util.Objects.requireNonNull;
-
 public class SingleIconHandler implements IBlockIconHandler {
+
     private final String mTextureName;
     private IIcon mBlockIcon;
 

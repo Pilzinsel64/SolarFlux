@@ -1,6 +1,7 @@
 package com.nauktis.solarflux.config;
 
 public final class TierConfiguration {
+
     private final int mMaximumEnergyGeneration;
     private final int mMaximumEnergyTransfer;
     private final int mCapacity;

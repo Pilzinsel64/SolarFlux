@@ -5,6 +5,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotUpgrade extends Slot {
+
     public SlotUpgrade(IInventory pInventory, int pSlotIndex, int pXDisplayPosition, int pYDisplayPosition) {
         super(pInventory, pSlotIndex, pXDisplayPosition, pYDisplayPosition);
     }

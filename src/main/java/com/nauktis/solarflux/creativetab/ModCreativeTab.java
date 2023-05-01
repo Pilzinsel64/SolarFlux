@@ -7,10 +7,12 @@ import com.nauktis.solarflux.init.ModItems;
 import com.nauktis.solarflux.reference.Reference;
 
 public class ModCreativeTab {
-	public static final CreativeTabs MOD_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase()) {
-		@Override
-		public Item getTabIconItem() {
-			return ModItems.mSolarCell3;
-		}
-	};
+
+    public static final CreativeTabs MOD_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase()) {
+
+        @Override
+        public Item getTabIconItem() {
+            return ModItems.mSolarCell3;
+        }
+    };
 }

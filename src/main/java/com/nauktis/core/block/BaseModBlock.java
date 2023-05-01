@@ -1,15 +1,17 @@
 package com.nauktis.core.block;
 
-import com.nauktis.core.block.icon.IBlockIconHandler;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.nauktis.core.block.icon.IBlockIconHandler;
 
 public class BaseModBlock extends Block {
+
     private final String mModId;
     private final IBlockIconHandler mBlockIconHandler;
 
