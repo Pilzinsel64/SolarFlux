@@ -1,15 +1,21 @@
-[
 {
-  "modid": "SolarFlux",
-  "name": "Solar Flux",
-  "description": "Solar Panels producing Redstone Flux",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Nauktis"],
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Solar Panels producing Redstone Flux",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/Pilzinsel64/SolarFlux",
+		"updateUrl": "",
+		"authorList": ["Nauktis", "Pilzinsel64"],
+		"credits": "",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": [],
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": true
+	}]
 }
-]
