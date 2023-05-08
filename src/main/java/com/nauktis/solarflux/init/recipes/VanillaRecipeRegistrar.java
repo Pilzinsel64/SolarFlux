@@ -98,7 +98,7 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
         }
         for (String metal : metals) {
             GameRegistry.addRecipe(
-                new ShapedOreRecipe(new ItemStack(ModItems.mMirror, 2), "ggg", " i ", 'g', "blockGlass", 'i', metal));
+                new ShapedOreRecipe(new ItemStack(ModItems.mMirror, 2), "ggg", " i ", 'g', "paneGlass", 'i', metal));
         }
     }
 
@@ -106,11 +106,11 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 ModItems.mSolarCell1,
-                "ggg",
-                "lll",
-                "mmm",
+                "gmg",
+                "lml",
+                "   ",
                 'g',
-                "blockGlass",
+                "paneGlass",
                 'l',
                 "gemLapis",
                 'm',
@@ -119,19 +119,19 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
 
     protected void registerCell2Recipe() {
         //@formatter:off
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell2, "clc", "lcl", "msm", 'c', Items.clay_ball, 'l', "gemLapis", 'm', ModItems.mMirror, 's', ModItems.mSolarCell1));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell2, "cmc", "lsl", "   ", 'c', Items.clay_ball, 'l', "gemLapis", 'm', ModItems.mMirror, 's', ModItems.mSolarCell1));
         //@formatter:on
     }
 
     protected void registerCell3Recipe() {
         //@formatter:off
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell3, "ggg", "lll", "oco", 'g', "blockGlass", 'l', "dustGlowstone", 'o', Blocks.obsidian, 'c', ModItems.mSolarCell2));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell3, "ogo", "lcl", "   ", 'g', "blockGlass", 'l', "dustGlowstone", 'o', Blocks.obsidian, 'c', ModItems.mSolarCell2));
         //@formatter:on
     }
 
     protected void registerCell4Recipe() {
         //@formatter:off
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell4, "bbb", "gdg", "qcq", 'b', Items.blaze_rod, 'g', "dustGlowstone", 'd', "blockDiamond", 'q', "blockQuartz", 'c', ModItems.mSolarCell3));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.mSolarCell4, "obo", "qcq", "   ", 'b', Items.blaze_rod, 'o', Blocks.obsidian, 'q', "gemQuartz", 'c', ModItems.mSolarCell3));
         //@formatter:on
     }
 
@@ -140,9 +140,9 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(0),
-                "mmm",
+                "mrm",
                 "prp",
-                "ppp",
+                "   ",
                 'm',
                 ModItems.mMirror,
                 'p',
@@ -156,14 +156,18 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(1),
-                "sss",
-                "sps",
-                "sss",
+                "rsr",
+                "gpg",
+                "   ",
                 's',
                 ModBlocks.getSolarPanels()
                     .get(0),
                 'p',
-                Blocks.piston));
+                Blocks.piston,
+                'g',
+                getFirstOreAvailable("ingotCopper", "ingotIron"),
+                'r',
+                "dustRedstone"));
     }
 
     protected void registerSolarPanel2() {
@@ -171,9 +175,9 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(2),
-                "ppp",
-                "scs",
-                "sbs",
+                "gsp",
+                "rbr",
+                "   ",
                 'p',
                 ModItems.mSolarCell1,
                 's',
@@ -182,7 +186,11 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
                 'c',
                 Items.repeater,
                 'b',
-                getFirstOreAvailable("blockCopper", "blockIron")));
+                getFirstOreAvailable("ingotCopper", "ingotIron"),
+                'g',
+                "nuggetGold",
+                'r',
+                "dustRedstone"));
     }
 
     protected void registerSolarPanel3() {
@@ -190,9 +198,9 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(3),
-                "ppp",
-                "scs",
-                "sbs",
+                "gsp",
+                "rbr",
+                "   ",
                 'p',
                 ModItems.mSolarCell2,
                 's',
@@ -201,7 +209,11 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
                 'c',
                 Items.clock,
                 'b',
-                "blockIron"));
+                getFirstOreAvailable("ingotCopper", "ingotIron"),
+                'g',
+                "ingotGold",
+                'r',
+                "dustRedstone"));
     }
 
     protected void registerSolarPanel4() {
@@ -209,18 +221,20 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(4),
-                "ppp",
-                "scs",
-                "sbs",
+                "gsp",
+                "rbr",
+                "   ",
                 'p',
                 ModItems.mSolarCell3,
                 's',
                 ModBlocks.getSolarPanels()
                     .get(3),
-                'c',
-                Blocks.redstone_lamp,
                 'b',
-                "blockGold"));
+                getFirstOreAvailable("blockCopper", "blockIron"),
+                'r',
+                "dustRedstone",
+                'g',
+                "ingotGold"));
     }
 
     protected void registerSolarPanel5() {
@@ -228,18 +242,22 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(5),
-                "ppp",
-                "scs",
-                "sbs",
+                "gsp",
+                "rbm",
+                "   ",
                 'p',
                 ModItems.mSolarCell4,
                 's',
                 ModBlocks.getSolarPanels()
                     .get(4),
-                'c',
-                Blocks.redstone_lamp,
                 'b',
-                "blockDiamond"));
+                "gemDiamond",
+                'r',
+                "dustRedstone",
+                'g',
+                "ingotGold",
+                'm',
+                getFirstOreAvailable("blockCopper", "blockIron")));
     }
 
     protected void registerSolarPanel(int pTier) {
@@ -247,16 +265,22 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
             new ShapedOreRecipe(
                 ModBlocks.getSolarPanels()
                     .get(pTier),
-                "ccc",
-                "sbs",
-                "ccc",
+                "gsc",
+                "rbm",
+                "   ",
                 'c',
                 ModItems.mSolarCell4,
                 's',
                 ModBlocks.getSolarPanels()
                     .get(pTier - 1),
                 'b',
-                "blockDiamond"));
+                "blockDiamond",
+                'r',
+                "blockRedstone",
+                'g',
+                "blockGold",
+                'm',
+                getFirstOreAvailable("blockCopper", "blockIron")));
     }
 
     protected void registerUpgradeBlank() {
@@ -295,7 +319,7 @@ public class VanillaRecipeRegistrar extends AbstractRecipeRegistrar {
                 "lul",
                 "ggg",
                 'g',
-                "blockGlass",
+                "paneGlass",
                 'u',
                 ModItems.mUpgradeBlank,
                 'l',
